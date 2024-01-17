@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  BucketPrefix:
+    Type: String
+    Default: "mybucket"
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName:
+        Fn::Sub: ${BucketPrefix}-${AWS::AccountId}-${AWS::Region}
