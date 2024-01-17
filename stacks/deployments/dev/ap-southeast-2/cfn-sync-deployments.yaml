@@ -11,7 +11,7 @@ Parameters:
 Resources:
   InitialPlaceholder:
     Type: AWS::CloudFormation::WaitConditionHandle
-  DevMy-s3-bucketStack:
+  DevMys3bucketStack:
     Type: CfnGitSync::Stack
     Properties:
       RepositoryOwner: "!Ref RepositoryOwner"
