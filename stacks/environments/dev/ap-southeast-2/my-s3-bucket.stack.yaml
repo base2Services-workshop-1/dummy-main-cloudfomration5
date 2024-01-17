@@ -1,6 +1,5 @@
+template-file-path: stacks/templates/s3-bucket.yaml
 
-    template-file-path: stacks/templates/s3-bucket.yaml
-
-    parameters:
-      BucketPrefix: mycoolbucket
+parameters:
+  BucketPrefix: mycoolbucket
     
