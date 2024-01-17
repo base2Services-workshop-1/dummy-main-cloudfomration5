@@ -33,7 +33,7 @@ namespace :deployments do
 
       environment_name, environment_region, stack_name = file.split('/')[2..4]
       stack_name = stack_name.gsub('.stack.yaml','')
-      resource_name = "#{environment_name.capitalize}#{stack_name.capitalize}Stack"
+      resource_name = "#{environment_name.capitalize}#{stack_name.capitalize}Stack".gsub('-','').gsub('_','')
 
       deployment_file_name = "#{stacks_dir}/deployments/#{environment_name}/#{environment_region}/#{deployments_file_name}"
 
