@@ -19,6 +19,7 @@ jobs:
       env:
         GITHUB_ORG_NAME: ${{ github.repository_owner }}
         GITHUB_REPO_NAME: ${{ github.repository }}
+      run: make new-deployments
     - name: delete deployments
       env:
         GITHUB_ORG_NAME: ${{ github.repository_owner }}
