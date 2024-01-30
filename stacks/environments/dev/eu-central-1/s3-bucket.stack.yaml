@@ -4,6 +4,6 @@ template-file-path: stacks/templates/s3-bucket.yaml
 parameters:
   BucketPrefix: my-eu-bucket
     
-
 metadata:
-  deletion-protection: false
+  deletion-policy: delete
+  

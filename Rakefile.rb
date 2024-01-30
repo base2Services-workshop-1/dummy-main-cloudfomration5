@@ -91,17 +91,21 @@ namespace :deployments do
     "
   end
 
-  def build_new_stack(file, environment_name, stack_name)
-    {
+  def build_new_stack(file, environment_name, stack_name, metadata={})
+    deletion_policy = metadata.fetch('deletion-policy', 'retain')
+    deletion_protection = metadata.fetch('deletion-protection', false)
+    tmpl = {
       'Type' => 'CfnGitSync::Stack',
       'Properties' => {
         'RepositoryOwner' => '!Ref RepositoryOwner',
         'RepositoryName' => '!Ref RepositoryName',
         'BranchName' => 'main',
         'StackName' => "#{environment_name}-#{stack_name}",
-        'StackDeploymentFile' => file
+        'StackDeploymentFile' => file,
+        'DeletionPolicy' => deletion_policy
       }
     }
+    return tmpl
   end
 
   def update_deployment(deployment, resource_name, new_stack, deployment_file_name)
