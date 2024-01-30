@@ -1,4 +1,4 @@
-name: manage-deployments
+name: deployments
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - 'stacks/**/*.stack.yaml'
 
 jobs:
-  new-deployments:
+  manage-deployments:
     runs-on: ubuntu-latest
     container: 
       image: theonestack/cfhighlander:latest
