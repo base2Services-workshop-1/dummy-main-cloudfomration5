@@ -25,3 +25,7 @@ setup-deployments:
 .PHONY: new-deployments
 new-deployments:
 	rake deployments:new
+
+.PHONY: delete-deployments
+new-deployments:
+	rake deployments:delete

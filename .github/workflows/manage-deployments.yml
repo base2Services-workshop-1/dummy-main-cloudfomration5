@@ -1,4 +1,4 @@
-name: new-deployments
+name: deployments
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - 'stacks/**/*.stack.yaml'
 
 jobs:
-  new-deployments:
+  manage-deployments:
     runs-on: ubuntu-latest
     container: 
       image: theonestack/cfhighlander:latest
@@ -21,6 +21,11 @@ jobs:
         GITHUB_ORG_NAME: ${{ github.repository_owner }}
         GITHUB_REPO_NAME: ${{ github.repository }}
       run: make new-deployments
+    - name: delete deployments
+      env:
+        GITHUB_ORG_NAME: ${{ github.repository_owner }}
+        GITHUB_REPO_NAME: ${{ github.repository }}
+      run: make delete-deployments
     - uses: EndBug/add-and-commit@v9
       with:
         message: adds deployment stacks templates and deployment config files
