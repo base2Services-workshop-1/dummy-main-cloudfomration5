@@ -2,7 +2,8 @@ name: manage-deployments
 
 on:
   pull_request:
-
+    paths:
+      - 'stacks/**/*.stack.yaml'
 
 jobs:
   new-deployments:
