@@ -46,6 +46,23 @@ namespace :deployments do
     end
   end
 
+  desc 'Checks for any deleted deployments and remove them from the deployment template'
+  task :delete do |t|
+    deployment_templates = Dir.glob(File.join("#{stacks_dir}/deployments", '**', 'cfn-sync-deployments.yaml'))
+    deployment_templates.each do |file|
+      template = YAML.load_file(file)
+      template['Resources'].each do |name, resource|
+        next if resource.fetch('Properties', {}).empty?
+        stack_file = resource['Properties'].fetch('StackDeploymentFile', '')
+        if(!File.exist?(stack_file))
+          puts "removing #{name} from deployment template #{file} as it been deleted"
+          template['Resources'].delete(name)
+        end
+      end
+      File.write(file, YAML.dump(template))
+    end
+  end
+
   private
 
   def stacks_dir
@@ -91,17 +108,21 @@ namespace :deployments do
     "
   end
 
-  def build_new_stack(file, environment_name, stack_name)
-    {
+  def build_new_stack(file, environment_name, stack_name, metadata={})
+    deletion_policy = metadata.fetch('deletion-policy', 'retain')
+    deletion_protection = metadata.fetch('deletion-protection', false)
+    tmpl = {
       'Type' => 'CfnGitSync::Stack',
       'Properties' => {
         'RepositoryOwner' => '!Ref RepositoryOwner',
         'RepositoryName' => '!Ref RepositoryName',
         'BranchName' => 'main',
         'StackName' => "#{environment_name}-#{stack_name}",
-        'StackDeploymentFile' => file
+        'StackDeploymentFile' => file,
+        'DeletionPolicy' => deletion_policy
       }
     }
+    return tmpl
   end
 
   def update_deployment(deployment, resource_name, new_stack, deployment_file_name)

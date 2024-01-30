@@ -19,3 +19,4 @@ Resources:
       BranchName: main
       StackName: dev-s3-bucket
       StackDeploymentFile: stacks/environments/dev/eu-central-1/s3-bucket.stack.yaml
+      DeletionPolicy: delete
