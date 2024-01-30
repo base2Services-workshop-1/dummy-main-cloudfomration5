@@ -34,6 +34,7 @@ namespace :deployments do
       environment_name, environment_region, stack_name = file.split('/')[2..4]
       stack_name = stack_name.gsub('.stack.yaml','')
       resource_name = "#{environment_name.capitalize}#{stack_name.capitalize}Stack".gsub('-','').gsub('_','')
+      stack_config = YAML.load_file(file)
 
       deployment_file_name = "#{stacks_dir}/deployments/#{environment_name}/#{environment_region}/#{deployments_file_name}"
 
@@ -108,7 +109,9 @@ namespace :deployments do
     "
   end
 
-  def build_new_stack(file, environment_name, stack_name, metadata={})
+  def build_new_stack(file, environment_name, stack_name)
+    stack_config = YAML.load_file(file)
+    metadata = stack_config.fetch('metadata', {})
     deletion_policy = metadata.fetch('deletion-policy', 'retain')
     deletion_protection = metadata.fetch('deletion-protection', false)
     tmpl = {
