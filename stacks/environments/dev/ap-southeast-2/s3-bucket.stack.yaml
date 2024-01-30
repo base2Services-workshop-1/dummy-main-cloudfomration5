@@ -1,8 +1,0 @@
-
-template-file-path: stacks/templates/s3-bucket.yaml
-
-parameters:
-  BucketPrefix: my-au-bucket
-
-metadata:
-  deletion-policy: delete
